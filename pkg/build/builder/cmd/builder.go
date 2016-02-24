@@ -142,7 +142,9 @@ func (c *builderConfig) execute(b builder) error {
 	}
 	glog.V(2).Infof("Running build with cgroup limits: %#v", *cgLimits)
 
-	if err := b.Build(c.dockerClient, c.dockerEndpoint, c.buildsClient, c.build, gitClient, cgLimits); err != nil {
+	glog.V(2).Infof("Workaround the cgroup bug: Ignoring the gathered cgroups options");
+
+	if err := b.Build(c.dockerClient, c.dockerEndpoint, c.buildsClient, c.build, gitClient, nil); err != nil {
 		return fmt.Errorf("build error: %v", err)
 	}
 
